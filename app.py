@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
 def calculate_similarity(article, phrase):
     vectorizer = TfidfVectorizer()
