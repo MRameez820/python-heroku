@@ -7,6 +7,18 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 
+def calculate_similarity(article, phrase):
+    vectorizer = TfidfVectorizer()
+    # Combine the article and phrase into one list for vectorization
+    all_text = [article, phrase]
+    # Convert the text to vectors
+    tfidf_matrix = vectorizer.fit_transform(all_text)
+    # Calculate cosine similarity (returns a matrix)
+    similarity_matrix = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
+    # The similarity score between the article and the phrase
+    similarity_score = similarity_matrix[0][0]
+    return similarity_score
+
 
 def get_html(url):
     try:
@@ -53,6 +65,13 @@ def hello():
     message = analyzePageTitle(version,url)
     return render_template('index.html')
 
+
+@app.route('/textresults')
+def showsim():
+    frsttxt = request.args.get('firsttext')
+    lasttxt = request.args.get('secondtext')
+    similarity_score = round(calculate_similarity(frsttxt, lasttxt)*100, 2)
+    return render_template('sim_results.html' , value=similarity_score)
 
 @app.route('/results')
 def showres():
