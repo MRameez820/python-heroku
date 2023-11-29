@@ -66,6 +66,13 @@ def hello():
     return render_template('index.html')
 
 
+@app.route('/results')
+def showres():
+    domain = request.args.get('domain')
+    version = findTitle(domain)
+    message = analyzePageTitle(version,domain)
+    return render_template('results.html' , value=message)
+
 @app.route('/textresults')
 def showsim():
     frsttxt = request.args.get('firsttext')
@@ -73,12 +80,6 @@ def showsim():
     similarity_score = round(calculate_similarity(frsttxt, lasttxt)*100, 2)
     return render_template('sim_results.html' , value=similarity_score)
 
-@app.route('/results')
-def showres():
-    domain = request.args.get('domain')
-    version = findTitle(domain)
-    message = analyzePageTitle(version,domain)
-    return render_template('results.html' , value=message)
       
     
 @app.route("/<string:name>/")
