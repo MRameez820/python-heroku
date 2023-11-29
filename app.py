@@ -80,11 +80,7 @@ def showsim():
     similarity_score = round(calculate_similarity(frsttxt, lasttxt)*100, 2)
     return render_template('sim_results.html' , value=similarity_score)
 
-      
-    
-@app.route("/<string:name>/")
-def say_hello(name):
-    return f"Hello {name}!"
+
     
 
 if __name__ == '__main__':
